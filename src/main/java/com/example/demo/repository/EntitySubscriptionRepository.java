@@ -31,7 +31,7 @@ public interface EntitySubscriptionRepository extends JpaRepository<EntitySubscr
     @Query("SELECT es FROM EntitySubscription es WHERE es.entity.id = :entityId AND es.isActive = true")
     List<EntitySubscription> findActiveSubscriptionsByEntity(@Param("entityId") UUID entityId);
 
-    @Query("SELECT es FROM EntitySubscription es WHERE es.user.village.id = :villageId AND es.entity.village.id != :villageId AND es.isActive = true")
+    @Query("SELECT es FROM EntitySubscription es WHERE es.user.village.id = :villageId AND es.entity.owner.village.id != :villageId AND es.isActive = true")
     List<EntitySubscription> findCrossVillageSubscriptions(@Param("villageId") UUID villageId);
 
     boolean existsByUserIdAndEntityIdAndIsActiveTrue(UUID userId, UUID entityId);

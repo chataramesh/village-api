@@ -3,12 +3,15 @@ package com.example.demo.entity;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
 @Table(name = "entity_subscriptions")
 @Data
+@JsonIgnoreProperties({"user", "entity"}) // Ignore lazy-loaded relationships
 public class EntitySubscription {
 
     @Id

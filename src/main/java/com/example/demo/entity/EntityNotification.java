@@ -1,7 +1,11 @@
 package com.example.demo.entity;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -9,6 +13,7 @@ import lombok.Data;
 @Entity
 @Table(name = "entity_notifications")
 @Data
+@JsonIgnoreProperties({"entity", "recipients"}) // Ignore lazy-loaded relationships
 public class EntityNotification {
 
     @Id
@@ -45,5 +50,5 @@ public class EntityNotification {
         joinColumns = @JoinColumn(name = "notification_id"),
         inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private java.util.Set<User> recipients = new java.util.HashSet<>();
+    private Set<User> recipients = new HashSet<>();
 }

@@ -47,11 +47,11 @@ public class UserController {
 		return ResponseEntity.ok(userService.updateUser(id, user));
 	}
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
-		userService.deleteUser(id);
-		return ResponseEntity.ok().build();
-	}
+//	@DeleteMapping("/{id}")
+//	public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
+//		userService.deleteUser(id);
+//		return ResponseEntity.ok().build();
+//	}
 
 	@GetMapping("/count")
 	public ResponseEntity<UserCountResponse> getUserCount() {
@@ -63,7 +63,11 @@ public class UserController {
 	}
 	
 	@GetMapping("/village/{villageId}/{roleName}")
-	public ResponseEntity<List<User>> getUsersByVillage(@PathVariable UUID villageId, @PathVariable String roleName) {
-		return ResponseEntity.ok(userService.getUsersByVillage(villageId,roleName));
+	public ResponseEntity<List<User>> getUsersAndRoleByVillage(@PathVariable UUID villageId, @PathVariable String roleName) {
+		return ResponseEntity.ok(userService.getUsersAndRoleByVillage(villageId,roleName));
+	}
+	@GetMapping("/village/{villageId}")
+	public ResponseEntity<List<User>> getUsersByVillage(@PathVariable UUID villageId) {
+		return ResponseEntity.ok(userService.getUsersByVillage(villageId));
 	}
 }

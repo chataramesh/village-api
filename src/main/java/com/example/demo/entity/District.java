@@ -9,19 +9,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
+
 @Data
 @Entity
 public class District {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    
     private String name;
 
     @ManyToOne
     private State state;
-    
-    private boolean isActive = true;
-    
 }
+

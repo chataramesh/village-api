@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.entity.EntitySubscription;
 import com.example.demo.entity.Entity_Item;
 import com.example.demo.entity.User;
-import com.example.demo.repository.EntitySubscriptionRepository;
 import com.example.demo.repository.EntityItemRepository;
+import com.example.demo.repository.EntitySubscriptionRepository;
 import com.example.demo.repository.UserRepository;
 
 @Service
@@ -34,7 +33,8 @@ public class EntitySubscriptionService {
                 .orElseThrow(() -> new RuntimeException("Active user not found with id: " + userId));
 
         // Check if entity exists and is active
-        Entity_Item entity = entityRepository.findByIdAndIsActiveTrue(entityId)
+        Entity_Item entity = entityRepository.findById(entityId)
+                .filter(Entity_Item::isActive)
                 .orElseThrow(() -> new RuntimeException("Active entity not found with id: " + entityId));
 
         // Check if already subscribed
@@ -84,10 +84,5 @@ public class EntitySubscriptionService {
                 .toList();
     }
 
-    public List<User> getEntitySubscribers(UUID entityId) {
-        List<EntitySubscription> subscriptions = getEntitySubscribers(entityId);
-        return subscriptions.stream()
-                .map(EntitySubscription::getUser)
-                .toList();
-    }
+   
 }

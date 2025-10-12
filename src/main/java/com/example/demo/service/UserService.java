@@ -57,25 +57,27 @@ public class UserService {
 		return userRepository.save(user);
 	}
 
-	public void deleteUser(UUID id) {
-		User user = getUserById(id);
-		userRepository.delete(user);
-	}
-
 	public UserCountResponse getCount() {
 		return userRepository.getUserCount();
 	}
 
 	public List<User> getUserByRole(String roleString) {
-		// TODO Auto-generated method stub
 		 Role role = Role.valueOf(roleString);
-         
+
 		return userRepository.findByRole(role);
 	}
 
-	public List<User>  getUsersByVillage(UUID villageId,String roleName) {
-		Role role= Role.valueOf(roleName);
-		// TODO Auto-generated method stub
-		return userRepository.findByVillageIdAndRole(villageId,role);
+	public List<User> getUsersAndRoleByVillage(UUID villageId, String roleName) {
+		Role role = Role.valueOf(roleName);
+		return userRepository.findByVillageIdAndRole(villageId, role);
+	}
+
+	public List<User> getUsersByVillage(UUID villageId) {
+		
+		return userRepository.findByVillageId(villageId);
+	}
+
+	public boolean isUserActive(UUID userId) {
+		return userRepository.findByIdAndIsActiveTrue(userId).isPresent();
 	}
 }
