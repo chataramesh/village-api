@@ -42,6 +42,7 @@ public class AuthService {
 		user.setPhone(request.getPhone());
 		user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
 		user.setRole(request.getRole());
+		user.setVillage(request.getVillage());
 		userRepository.save(user);
 
 		String accessToken = jwtService.generateToken(user);

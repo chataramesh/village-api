@@ -1,0 +1,15 @@
+package com.example.demo.enums;
+
+public enum ImageCategory {
+    ELECTION_CAMPAIGN,
+    HEALTH_CAMP,
+    VILLAGE_FESTIVAL,
+    CULTURAL_EVENT,
+    SPORTS_EVENT,
+    EDUCATION_PROGRAM,
+    COMMUNITY_SERVICE,
+    GOVERNMENT_SCHEME,
+    DISASTER_RELIEF,
+    DEVELOPMENT_PROJECT,
+    OTHER
+}
