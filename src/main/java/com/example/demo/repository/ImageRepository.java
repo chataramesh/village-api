@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import com.example.demo.entity.Image;
 import com.example.demo.enums.ImageCategory;
 
+
 public interface ImageRepository extends JpaRepository<Image, UUID> {
 
     List<Image> findByIsActiveTrue();

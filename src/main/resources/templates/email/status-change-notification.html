@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status Change Notification</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #6f42c1;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #6f42c1;
+            margin: 0;
+            font-size: 28px;
+        }
+        .status-badge {
+            display: inline-block;
+            background-color: #6f42c1;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+        .entity-info {
+            background-color: #f8f5ff;
+            border-left: 4px solid #6f42c1;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .entity-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #6f42c1;
+            margin-bottom: 10px;
+        }
+        .entity-type {
+            color: #6c757d;
+            font-size: 14px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .message-content {
+            background-color: #f8f5ff;
+            border: 1px solid #6f42c1;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+            color: #6c757d;
+            font-size: 12px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #6f42c1;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #6f42c1;
+        }
+        .status-indicator {
+            display: inline-block;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+            border-bottom: 2px solid #5a36a3;
+        }
+        .status-maintenance {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        .status-temporarily-closed {
+            background-color: #fd7e14;
+            color: white;
+        }
+        .status-permanently-closed {
+            background-color: #6c757d;
+            color: white;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .status-open {
+            background-color: #28a745;
+            color: white;
+        }
+        .status-closed {
+            background-color: #dc3545;
+            color: white;
+        }
+        .entity-details-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background-color: #fff;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .entity-details-table th {
+            background-color: #6f42c1;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+            border-bottom: 2px solid #5a36a3;
+        }
+        .entity-details-table td {
+            padding: 12px;
+            border-bottom: 1px solid #dee2e6;
+            color: #495057;
+        }
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Status Update</h1>
+            <div class="status-badge">Status Change</div>
+        </div>
+
+        <p>Dear <span class="highlight" th:text="${userName}">User</span>,</p>
+
+        <div class="entity-info">
+            <div class="entity-name" th:text="${entityName}">Entity Name</div>
+            <div class="entity-type" th:text="${entityType}">Entity Type</div>
+
+            <table class="entity-details-table">
+                <thead>
+                    <tr>
+                        <th colspan="2">📋 Entity Information</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Opening Time:</strong></td>
+                        <td th:text="${openingTime != null ? #temporals.format(openingTime, 'HH:mm') : 'Not specified'}">09:00</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Closing Time:</strong></td>
+                        <td th:text="${closingTime != null ? #temporals.format(closingTime, 'HH:mm') : 'Not specified'}">18:00</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Status:</strong></td>
+                        <td>
+                            <span class="status-badge"
+                                  th:class="'status-' + ${entityStatus != null ? entityStatus.toString().toLowerCase().replace('_', '-') : 'open'}"
+                                  th:text="${entityStatus != null ? entityStatus.toString().replace('_', ' ') : 'Open'}">Open</span>
+                        </td>
+                    </tr>
+                    <tr th:if="${contactNumber != null and !contactNumber.isEmpty()}">
+                        <td><strong>Contact:</strong></td>
+                        <td th:text="${contactNumber}">+1 234 567 8900</td>
+                    </tr>
+                    <tr th:if="${address != null and !address.isEmpty()}">
+                        <td><strong>Address:</strong></td>
+                        <td th:text="${address}">123 Main Street, City</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="message-content">
+            <h3 th:text="${title}">Status Change Title</h3>
+            <p th:text="${message}">Status change message content goes here...</p>
+
+            <div style="margin-top: 15px;">
+                <span class="status-indicator" th:class="'status-' + ${notificationType.toLowerCase()}">
+                    Status Updated
+                </span>
+            </div>
+        </div>
+
+        <p>The status of this entity has been updated. Please check the details above for the current status and any relevant information.</p>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="#" class="button">Check Current Status</a>
+        </div>
+
+        <div class="footer">
+            <p>This is a status update notification from the Village Management System.</p>
+            <p>&copy; <span th:text="${currentYear}">2024</span> Village Management System. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

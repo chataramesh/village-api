@@ -9,9 +9,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.example.demo.entity.Incident;
-import com.example.demo.enums.IncidentStatus;
 import com.example.demo.enums.IncidentCategory;
 import com.example.demo.enums.IncidentPriority;
+import com.example.demo.enums.IncidentStatus;
 
 public interface IncidentRepository extends JpaRepository<Incident, UUID> {
 

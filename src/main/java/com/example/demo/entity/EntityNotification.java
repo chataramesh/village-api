@@ -3,22 +3,19 @@ package com.example.demo.entity;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "entity_notifications")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @JsonIgnoreProperties({"entity", "recipients"}) // Ignore lazy-loaded relationships
-public class EntityNotification {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+public class EntityNotification extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "entity_id", nullable = false)
@@ -34,13 +31,9 @@ public class EntityNotification {
     private String notificationType; // EMERGENCY, UPDATE, GENERAL, MAINTENANCE
 
     @Column(nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    @Column(nullable = false)
-    private boolean isActive = true;
-
     private String priority = "NORMAL"; // LOW, NORMAL, HIGH, URGENT
 
+    @Column
     private LocalDateTime scheduledFor;
 
     // Many-to-many relationship with users who received this notification

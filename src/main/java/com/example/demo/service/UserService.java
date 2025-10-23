@@ -16,14 +16,13 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	public List<User> getAllUsers() {
 		return userRepository.findAll();
 	}
 
 	public User getUserById(UUID id) {
-		return userRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+		return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found with id: " + id));
 	}
 
 	public User createUser(User user) {
@@ -62,7 +61,7 @@ public class UserService {
 	}
 
 	public List<User> getUserByRole(String roleString) {
-		 Role role = Role.valueOf(roleString);
+		Role role = Role.valueOf(roleString);
 
 		return userRepository.findByRole(role);
 	}
@@ -73,11 +72,16 @@ public class UserService {
 	}
 
 	public List<User> getUsersByVillage(UUID villageId) {
-		
+
 		return userRepository.findByVillageId(villageId);
 	}
 
 	public boolean isUserActive(UUID userId) {
 		return userRepository.findByIdAndIsActiveTrue(userId).isPresent();
+	}
+
+	public User getUserByName(String email) {
+		// TODO Auto-generated method stub
+		return userRepository.findByEmail(email).get();
 	}
 }

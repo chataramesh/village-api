@@ -1,6 +1,5 @@
 package com.example.demo.entity;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,19 +7,25 @@ import java.util.UUID;
 
 import com.example.demo.enums.EntityStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
 @Table(name = "entities")
 @Data
-@JsonIgnoreProperties({ "subscriptions", "hibernateLazyInitializer", "handler" })
-public class Entity_Item {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+public class Entity_Item extends BaseEntity {
 
     @Column(nullable = false)
     private String name;
@@ -32,11 +37,13 @@ public class Entity_Item {
     private String type; // GOVT_HOSPITAL, SHOP, MRO_OFFICE, POLICE_STATION, POST_OFFICE, etc.
 
     // Owner of the entity (admin who manages it)
-//    @ManyToOne(fetch = FetchType.LAZY)
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
+    @ManyToOne
+    private Village village;
+    
     // Operating hours
     @Column(nullable = false)
     private LocalTime openingTime;
@@ -49,21 +56,11 @@ public class Entity_Item {
     @Column(nullable = false)
     private EntityStatus status = EntityStatus.OPEN;
 
-    // Administrative fields
-    @Column(nullable = false)
-    private boolean isActive = true;
-
-    @Column(nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    private LocalDateTime updatedAt;
-
     // Location (optional)
     private Double latitude;
     private Double longitude;
 
     private String address;
-    
 
     // Contact information
     private String contactNumber;
@@ -75,6 +72,7 @@ public class Entity_Item {
 
     // Relationships
     @OneToMany(mappedBy = "entity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference(value = "entity-subscriptions")
     private List<EntitySubscription> subscriptions = new ArrayList<>();
 
     // Helper methods
@@ -88,10 +86,5 @@ public class Entity_Item {
 
     public String getVillageName() {
         return owner != null && owner.getVillage() != null ? owner.getVillage().getName() : null;
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
     }
 }

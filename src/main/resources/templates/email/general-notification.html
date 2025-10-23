@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entity Notification</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #007bff;
+            margin: 0;
+            font-size: 28px;
+        }
+        .notification-badge {
+            display: inline-block;
+            background-color: #28a745;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+        .entity-info {
+            background-color: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .entity-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+        .entity-type {
+            color: #6c757d;
+            font-size: 14px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .message-content {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+            color: #6c757d;
+            font-size: 12px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📢 Entity Notification</h1>
+            <div class="notification-badge" th:text="${notificationType}">General</div>
+        </div>
+
+        <p>Dear <span class="highlight" th:text="${userName}">User</span>,</p>
+
+        <div class="entity-info">
+            <div class="entity-name" th:text="${entityName}">Entity Name</div>
+            <div class="entity-type" th:text="${entityType}">Entity Type</div>
+        </div>
+
+        <div class="message-content">
+            <h3 th:text="${title}">Notification Title</h3>
+            <p th:text="${message}">Notification message content goes here...</p>
+        </div>
+
+        <p>This notification was sent because you are subscribed to updates for this entity. If you no longer wish to receive these notifications, you can manage your subscriptions.</p>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="#" class="button">View Entity Details</a>
+        </div>
+
+        <div class="footer">
+            <p>This is an automated notification from the Village Management System.</p>
+            <p>&copy; <span th:text="${currentYear}">2024</span> Village Management System. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

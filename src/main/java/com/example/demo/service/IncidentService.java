@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.entity.Incident;
-import com.example.demo.enums.IncidentStatus;
 import com.example.demo.enums.IncidentCategory;
 import com.example.demo.enums.IncidentPriority;
+import com.example.demo.enums.IncidentStatus;
 import com.example.demo.repository.IncidentRepository;
 
 @Service

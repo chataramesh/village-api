@@ -1,0 +1,30 @@
+package com.example.demo.enums;
+
+public enum VehicleType {
+    CAR,
+    MOTORCYCLE,
+    SCOOTER,
+    TRUCK,
+    BUS,
+    AUTO_RICKSHAW,
+    TRACTOR,
+    TRAILER,
+    VAN,
+    SUV,
+    SEDAN,
+    HATCHBACK,
+    PICKUP_TRUCK,
+    DELIVERY_VAN,
+    AMBULANCE,
+    FIRE_TRUCK,
+    POLICE_VEHICLE,
+    SCHOOL_BUS,
+    TAXI,
+    PRIVATE_BUS,
+    GOODS_CARRIER,
+    TANKER,
+    CRANE,
+    EXCAVATOR,
+    BULLDOZER,
+    OTHER
+}

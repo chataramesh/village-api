@@ -1,22 +1,24 @@
 package com.example.demo.entity;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
-import jakarta.persistence.*;
-import lombok.Data;
-import com.example.demo.enums.IncidentStatus;
 import com.example.demo.enums.IncidentCategory;
 import com.example.demo.enums.IncidentPriority;
+import com.example.demo.enums.IncidentStatus;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "incidents")
 @Data
-public class Incident {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+@EqualsAndHashCode(callSuper = true)
+public class Incident extends BaseEntity {
 
     @Column(nullable = false)
     private String title;
@@ -63,11 +65,6 @@ public class Incident {
     @Column
     private LocalDateTime escalatedAt; // When it was escalated
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    private LocalDateTime updatedAt;
-
     @Column
     private String contactInfo; // Contact details of reporter
 
@@ -76,9 +73,5 @@ public class Incident {
 
     @Column
     private boolean requiresFollowUp = false;
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
+    
 }
