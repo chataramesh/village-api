@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -83,5 +84,10 @@ public class UserService {
 	public User getUserByName(String email) {
 		// TODO Auto-generated method stub
 		return userRepository.findByEmail(email).get();
+	}
+
+	public List<Role> getAllRoles() {
+		// TODO Auto-generated method stub
+		return Arrays.asList(Role.values());
 	}
 }

@@ -16,13 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.response.UserCountResponse;
 import com.example.demo.entity.User;
+import com.example.demo.enums.Role;
 import com.example.demo.service.UserService;
 
 @RestController
 @RequestMapping("/api/users")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController {
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -56,15 +57,23 @@ public class UserController {
 	public ResponseEntity<UserCountResponse> getUserCount() {
 		return ResponseEntity.ok(userService.getCount());
 	}
+
 	@GetMapping("/role/{role}")
 	public ResponseEntity<List<User>> getUserByRole(@PathVariable String role) {
 		return ResponseEntity.ok(userService.getUserByRole(role));
 	}
-	
-	@GetMapping("/village/{villageId}/{roleName}")
-	public ResponseEntity<List<User>> getUsersAndRoleByVillage(@PathVariable UUID villageId, @PathVariable String roleName) {
-		return ResponseEntity.ok(userService.getUsersAndRoleByVillage(villageId,roleName));
+
+	@GetMapping("/all/roles")
+	public ResponseEntity<List<Role>> getAllRoles() {
+		return ResponseEntity.ok(userService.getAllRoles());
 	}
+
+	@GetMapping("/village/{villageId}/{roleName}")
+	public ResponseEntity<List<User>> getUsersAndRoleByVillage(@PathVariable UUID villageId,
+			@PathVariable String roleName) {
+		return ResponseEntity.ok(userService.getUsersAndRoleByVillage(villageId, roleName));
+	}
+
 	@GetMapping("/village/{villageId}")
 	public ResponseEntity<List<User>> getUsersByVillage(@PathVariable UUID villageId) {
 		return ResponseEntity.ok(userService.getUsersByVillage(villageId));
