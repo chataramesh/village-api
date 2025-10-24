@@ -6,7 +6,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 #pull jdk
-from openjdk:11-jdk-slim
+FROM eclipse-temurin:17-jdk-jammy
 #working directory
 WORKDIR /app			
 #move jar 
