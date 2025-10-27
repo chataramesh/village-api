@@ -17,7 +17,7 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 
 @MappedSuperclass
-// @EntityListeners(EntityAuditListener.class) // Temporarily disabled to debug StackOverflowError
+@EntityListeners(EntityAuditListener.class) // Temporarily disabled to debug StackOverflowError
 @Data
 public abstract class BaseEntity {
 

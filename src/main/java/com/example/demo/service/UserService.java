@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.response.UserCountResponse;
@@ -17,6 +18,9 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	public List<User> getAllUsers() {
 		return userRepository.findAll();
@@ -27,6 +31,7 @@ public class UserService {
 	}
 
 	public User createUser(User user) {
+		user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
 		return userRepository.save(user);
 	}
 
