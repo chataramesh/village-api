@@ -29,13 +29,13 @@ public abstract class BaseEntity {
     private LocalDateTime createdAt;
 
    
-    @JoinColumn(name = "created_by")
+    @Column(name = "created_by")
     private String createdBy;
 
     private LocalDateTime updatedAt;
 
 
-    @JoinColumn(name = "updated_by")
+    @Column(name = "updated_by")
     private String updatedBy;
     
 

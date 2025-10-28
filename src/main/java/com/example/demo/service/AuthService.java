@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.request.ForgetPasswordRequest;
 import com.example.demo.dto.request.LoginRequest;
 import com.example.demo.dto.request.RegisterRequest;
 import com.example.demo.dto.response.AuthResponse;
@@ -63,5 +64,11 @@ public class AuthService {
 		String refreshToken = refreshTokenService.createRefreshToken(user).getToken();
 
 		return new AuthResponse(accessToken, refreshToken);
+	}
+
+	public User verifyuser(ForgetPasswordRequest forgetPasswordRequest) {
+		User user=userRepository.findByEmail(forgetPasswordRequest.getUsername())
+				.orElseThrow(() -> new UsernameNotFoundException("User not found"));
+		return user;
 	}
 }

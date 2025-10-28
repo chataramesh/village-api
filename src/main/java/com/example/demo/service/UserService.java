@@ -57,6 +57,12 @@ public class UserService {
 		if (userDetails.getVillage() != null) {
 			user.setVillage(userDetails.getVillage());
 		}
+		if(userDetails.getLatitude() != 0.0) {
+			user.setLatitude(userDetails.getLatitude());
+		}
+		if(userDetails.getLongitude() != 0.0) {
+			user.setLongitude(userDetails.getLongitude());
+		}
 		user.setActive(userDetails.isActive());
 
 		return userRepository.save(user);

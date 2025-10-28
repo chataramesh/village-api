@@ -7,17 +7,21 @@ import com.example.demo.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
+import jakarta.ws.rs.DefaultValue;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class User extends BaseEntity {
 
@@ -25,6 +29,15 @@ public class User extends BaseEntity {
 	private String email;
 	private String phone;
 	private String passwordHash;
+
+	@Column(nullable = true)
+	@DefaultValue("0.0")
+	private double latitude;
+
+	
+	@Column(nullable = true)
+	@DefaultValue("0.0")
+	private double longitude;
 
 	@Enumerated(EnumType.STRING)
 	private Role role;

@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.request.ForgetPasswordRequest;
 import com.example.demo.dto.request.LoginRequest;
 import com.example.demo.dto.request.RefreshRequest;
 import com.example.demo.dto.request.RegisterRequest;
 import com.example.demo.dto.response.AuthResponse;
 import com.example.demo.entity.RefreshToken;
+import com.example.demo.entity.User;
 import com.example.demo.repository.RefreshTokenRepository;
 import com.example.demo.service.AuthService;
 import com.example.demo.service.JwtService;
@@ -23,42 +25,46 @@ import com.example.demo.service.RefreshTokenService;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AuthController {
 
-	
-    @Autowired
-    private AuthService authService;
+	@Autowired
+	private AuthService authService;
 
-    @Autowired
-    private RefreshTokenService refreshTokenService;
+	@Autowired
+	private RefreshTokenService refreshTokenService;
 
-    @Autowired
-    private RefreshTokenRepository refreshTokenRepo;
+	@Autowired
+	private RefreshTokenRepository refreshTokenRepo;
 
-    @Autowired
-    private JwtService jwtService;
+	@Autowired
+	private JwtService jwtService;
 
-    @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
-        return ResponseEntity.ok(authService.register(request));
-    }
+	@PostMapping("/register")
+	public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
+		return ResponseEntity.ok(authService.register(request));
+	}
 
-    @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
-        return ResponseEntity.ok(authService.login(request));
-    }
+	@PostMapping("/login")
+	public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
+		return ResponseEntity.ok(authService.login(request));
+	}
 
-    @PostMapping("/refresh")
-    public ResponseEntity<AuthResponse> refresh(@RequestBody RefreshRequest request) {
-        RefreshToken token = refreshTokenRepo.findByToken(request.getRefreshToken())
-            .orElseThrow(() -> new RuntimeException("Invalid refresh token"));
+	@PostMapping("/verifyuser")
+	public ResponseEntity<User> verifyuser(@RequestBody ForgetPasswordRequest forgetPasswordRequest) {
+		return ResponseEntity.ok(authService.verifyuser(forgetPasswordRequest));
+	}
 
-        if (!refreshTokenService.isValid(token)) {
-        	refreshTokenRepo.delete(token);
-            throw new RuntimeException("Expired refresh token");
-        }
+	@PostMapping("/refresh")
+	public ResponseEntity<AuthResponse> refresh(@RequestBody RefreshRequest request) {
+		RefreshToken token = refreshTokenRepo.findByToken(request.getRefreshToken())
+				.orElseThrow(() -> new RuntimeException("Invalid refresh token"));
 
-        String newAccessToken = jwtService.generateToken(token.getUser());
-        String newRefreshToken = refreshTokenService.createRefreshToken(token.getUser()).getToken();
+		if (!refreshTokenService.isValid(token)) {
+			refreshTokenRepo.delete(token);
+			throw new RuntimeException("Expired refresh token");
+		}
 
-        return ResponseEntity.ok(new AuthResponse(newAccessToken, newRefreshToken));
-    }
+		String newAccessToken = jwtService.generateToken(token.getUser());
+		String newRefreshToken = refreshTokenService.createRefreshToken(token.getUser()).getToken();
+
+		return ResponseEntity.ok(new AuthResponse(newAccessToken, newRefreshToken));
+	}
 }

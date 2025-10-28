@@ -9,6 +9,8 @@ import com.example.demo.dto.response.ComprehensiveCountResponse;
 import com.example.demo.dto.response.CountryCountResponse;
 import com.example.demo.dto.response.DistrictCountResponse;
 import com.example.demo.dto.response.EntityCountResponse;
+import com.example.demo.dto.response.EventCountResponse;
+import com.example.demo.dto.response.IncidentCountResponse;
 import com.example.demo.dto.response.MandalCountResponse;
 import com.example.demo.dto.response.StateCountResponse;
 import com.example.demo.dto.response.UserCountResponse;
@@ -16,6 +18,8 @@ import com.example.demo.dto.response.VillageCountResponse;
 import com.example.demo.repository.CountryRepository;
 import com.example.demo.repository.DistrictRepository;
 import com.example.demo.repository.EntityItemRepository;
+import com.example.demo.repository.EventRepository;
+import com.example.demo.repository.IncidentRepository;
 import com.example.demo.repository.MandalRepository;
 import com.example.demo.repository.StateRepository;
 import com.example.demo.repository.UserRepository;
@@ -42,9 +46,15 @@ public class StatisticsService {
 	@Autowired
 	private CountryRepository countryRepository;
 
-	  @Autowired
-	    private EntityItemRepository entityRepository;
-	  
+	@Autowired
+	private EntityItemRepository entityRepository;
+
+	@Autowired
+	private EventRepository eventRepository;
+
+	@Autowired
+	private IncidentRepository incidentRepository;
+
 	/**
 	 * Get comprehensive counts for all hierarchical entities
 	 */
@@ -56,8 +66,11 @@ public class StatisticsService {
 		StateCountResponse stateCounts = stateRepository.getStateCount();
 		CountryCountResponse countryCounts = countryRepository.getCountryCount();
 		EntityCountResponse entityCounts = entityRepository.getEntityCount();
+		EventCountResponse eventCounts = eventRepository.getEventCount();
+		IncidentCountResponse incidentCounts = incidentRepository.getIncidentCount();
+		
 		return new ComprehensiveCountResponse(userCounts, villageCounts, mandalCounts, districtCounts, stateCounts,
-				countryCounts,entityCounts);
+				countryCounts, entityCounts, eventCounts,incidentCounts);
 	}
 
 	/**
@@ -92,6 +105,9 @@ public class StatisticsService {
 		VillageCountResponse villageCounts = villageRepository.getVillageCount(villageId);
 		UserCountResponse userCounts = userRepository.getUserCount();
 		EntityCountResponse entityCounts = entityRepository.getEntityCountByVillageId(villageId);
-		return new ComprehensiveCountResponse(userCounts, villageCounts, null, null, null, null,entityCounts);
+		EventCountResponse eventCounts = eventRepository.getEventCountByVillageId(villageId);
+		IncidentCountResponse incidentCounts = incidentRepository.getIncidentCountByVillageId(villageId);
+		return new ComprehensiveCountResponse(userCounts, villageCounts, null, null, null, null, entityCounts,
+				eventCounts,incidentCounts);
 	}
 }

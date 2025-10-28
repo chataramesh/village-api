@@ -28,10 +28,12 @@ public class EntityAuditListener {
 			baseEntity.setCreatedAt(now);
 			baseEntity.setUpdatedAt(now);
 
-			User currentUser = auditService.getCurrentUser();
-			if (currentUser != null) {
-				baseEntity.setCreatedBy(currentUser.getEmail());
-				baseEntity.setUpdatedBy(currentUser.getEmail());
+			if (auditService != null) {
+				String email = auditService.getCurrentUserEmailNoDb();
+				if (email != null) {
+					baseEntity.setCreatedBy(email);
+					baseEntity.setUpdatedBy(email);
+				}
 			}
 
 		}
@@ -39,16 +41,26 @@ public class EntityAuditListener {
 
 	@PreUpdate
 	public void setUpdatedFields(Object target) {
+		try {
+			if (target instanceof BaseEntity baseEntity) {
+				baseEntity.setUpdatedAt(LocalDateTime.now());
 
-		if (target instanceof BaseEntity baseEntity) {
-			baseEntity.setUpdatedAt(LocalDateTime.now());
+				if (auditService != null) {
+					String email = auditService.getCurrentUserEmailNoDb();
+					if (email == null) {
+						User systemUser = auditService.getSystemUser();
+						email = systemUser != null ? systemUser.getEmail() : null;
+					}
 
-			User currentUser = auditService.getCurrentUser();
-			if (currentUser == null) {
-				currentUser = auditService.getSystemUser();
+					if (email != null) {
+						baseEntity.setUpdatedBy(email);
+					}
+				}
 			}
-
-			baseEntity.setUpdatedBy(currentUser.getEmail());
+		} catch (Exception e) {
+			// Handle exception if needed
+			e.printStackTrace();
 		}
+
 	}
 }

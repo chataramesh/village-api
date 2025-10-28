@@ -26,6 +26,9 @@ public class Event extends BaseEntity {
 
     @Column(nullable = false)
     private String place;
+    
+    @ManyToOne
+    private Village village;
 
     // Optional: Add organizer reference if needed
     // @ManyToOne
