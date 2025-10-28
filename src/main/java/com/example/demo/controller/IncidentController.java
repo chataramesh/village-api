@@ -37,6 +37,7 @@ public class IncidentController {
         List<Incident> incidents = incidentService.getAllIncidents();
         return ResponseEntity.ok(incidents);
     }
+    
 
     @GetMapping("/{id}")
     public ResponseEntity<Incident> getIncidentById(@PathVariable UUID id) {
