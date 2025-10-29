@@ -50,7 +50,7 @@ public class SubscriptionController {
 
         SubscriptionResponse response = SubscriptionResponse.builder()
                 .id(subscription.getId())
-                .entity(subscription.getEntity())
+                
                 .subscriptionType(subscription.getSubscriptionType())
                 .subscribedAt(subscription.getSubscribedAt())
                 .isActive(subscription.isActive())

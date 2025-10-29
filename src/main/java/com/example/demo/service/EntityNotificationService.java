@@ -20,8 +20,8 @@ import jakarta.mail.MessagingException;
 @Transactional
 public class EntityNotificationService {
 
-	@Autowired
-	private NotificationWebSocketService webSocketService;
+//	@Autowired
+//	private NotificationWebSocketService webSocketService;
 
 	@Autowired
 	private EntitySubscriptionService subscriptionService;
@@ -153,31 +153,31 @@ public class EntityNotificationService {
 		}
 	}
 
-	public void sendNotificationToUser(UUID entityId, UUID userId, String title, String message,
-			String notificationType, String priority) {
-		// Verify user is subscribed to the entity
-		if (!subscriptionService.isUserSubscribedToEntity(userId, entityId)) {
-			throw new RuntimeException("User is not subscribed to this entity");
-		}
-
-		// Create notification
-		EntityNotification notification = createNotification(entityId, title, message, notificationType, priority);
-
-		// Set entity and recipient
-		Entity_Item entity = subscriptionService.getEntitySubscribers(entityId).stream().map(sub -> sub.getEntity())
-				.findFirst().orElseThrow(() -> new RuntimeException("Entity not found"));
-
-		notification.setEntity(entity);
-		notification.getRecipients()
-				.add(subscriptionService.getUserSubscriptions(userId).stream().map(EntitySubscription::getUser)
-						.findFirst().orElseThrow(() -> new RuntimeException("User not found")));
-
-		notificationRepository.save(notification);
-
-		// Send real-time notification via WebSocket
-		webSocketService.sendNotificationToUser(userId.toString(), title, message, entityId, notificationType, priority,
-				entity.getName());
-	}
+//	public void sendNotificationToUser(UUID entityId, UUID userId, String title, String message,
+//			String notificationType, String priority) {
+//		// Verify user is subscribed to the entity
+//		if (!subscriptionService.isUserSubscribedToEntity(userId, entityId)) {
+//			throw new RuntimeException("User is not subscribed to this entity");
+//		}
+//
+//		// Create notification
+//		EntityNotification notification = createNotification(entityId, title, message, notificationType, priority);
+//
+//		// Set entity and recipient
+//		Entity_Item entity = subscriptionService.getEntitySubscribers(entityId).stream().map(sub -> sub.getEntity())
+//				.findFirst().orElseThrow(() -> new RuntimeException("Entity not found"));
+//
+//		notification.setEntity(entity);
+//		notification.getRecipients()
+//				.add(subscriptionService.getUserSubscriptions(userId).stream().map(EntitySubscription::getUser)
+//						.findFirst().orElseThrow(() -> new RuntimeException("User not found")));
+//
+//		notificationRepository.save(notification);
+//
+//		// Send real-time notification via WebSocket
+//		webSocketService.sendNotificationToUser(userId.toString(), title, message, entityId, notificationType, priority,
+//				entity.getName());
+//	}
 
 	public List<EntityNotification> getEntityNotifications(UUID entityId) {
 		return notificationRepository.findActiveByEntityOrderByCreatedAtDesc(entityId);

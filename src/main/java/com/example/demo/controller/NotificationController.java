@@ -118,21 +118,21 @@ public class NotificationController {
         return ResponseEntity.ok("Notification sent to all subscribers");
     }
 
-    /**
-     * Send notification to specific user (Admin only)
-     */
-    @PostMapping("/user/{userId}/send")
-    public ResponseEntity<String> sendNotificationToUser(
-            @PathVariable UUID userId,
-            @RequestParam UUID entityId,
-            @RequestParam String title,
-            @RequestParam String message,
-            @RequestParam(defaultValue = "GENERAL") String notificationType,
-            @RequestParam(defaultValue = "NORMAL") String priority) {
-
-        notificationService.sendNotificationToUser(entityId, userId, title, message, notificationType, priority);
-        return ResponseEntity.ok("Notification sent to user");
-    }
+//    /**
+//     * Send notification to specific user (Admin only)
+//     */
+//    @PostMapping("/user/{userId}/send")
+//    public ResponseEntity<String> sendNotificationToUser(
+//            @PathVariable UUID userId,
+//            @RequestParam UUID entityId,
+//            @RequestParam String title,
+//            @RequestParam String message,
+//            @RequestParam(defaultValue = "GENERAL") String notificationType,
+//            @RequestParam(defaultValue = "NORMAL") String priority) {
+//
+//        notificationService.sendNotificationToUser(entityId, userId, title, message, notificationType, priority);
+//        return ResponseEntity.ok("Notification sent to user");
+//    }
 
     /**
      * Get recent notifications across all entities
