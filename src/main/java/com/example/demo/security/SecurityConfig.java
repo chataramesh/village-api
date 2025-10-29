@@ -72,12 +72,14 @@ public class SecurityConfig {
                     "/ws/**",
                     "/auth-service/ws/**",
                     "/ws",
-                    "/auth-service/ws"
+                    "/auth-service/ws",
+                    "/api/auth/**"
                 )
             )
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
                     "/api/auth/**",
+                    "/auth-service/api/auth/**",
                     "/ws/**",
                     "/auth-service/ws/**",
                     "/ws",
