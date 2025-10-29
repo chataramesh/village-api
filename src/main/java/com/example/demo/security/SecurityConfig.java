@@ -90,6 +90,8 @@ public class SecurityConfig {
                 .requestMatchers(
                     "/api/auth/**",
                     "/auth-service/api/auth/**",
+                    "/api/auth/login/**",
+                    "/auth-service/api/auth/login/**",
                     "/ws/**",
                     "/auth-service/ws/**",
                     "/ws",
